@@ -3,144 +3,436 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Yetssie Alexandra | Bajo La Misma Luna</title> # Title updated
+    <title>Yetssie Alexandra</title>
     
-    <!-- Google Fonts -->
+    <!-- Tipografía de autor: Playfair Display + Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --bg-base: #060814;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-gold: #d4af37;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --font-editorial: 'Playfair Display', Georgia, serif;
+            --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        #sky-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .moon-element {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #fffdfa 0%, #d4cfc5 60%, #9e978b 100%);
+            box-shadow: 0 0 30px rgba(255, 253, 245, 0.2);
+            z-index: -1;
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-base);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .intro-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .intro-screen p {
+            font-family: var(--font-editorial);
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--text-main);
+            margin-bottom: 32px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-enter {
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--accent-gold);
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-enter:hover {
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        .container {
+            max-width: 580px;
+            margin: 0 auto;
+            padding: 80px 24px;
+            position: relative;
+        }
+
+        .letter-card {
+            background: rgba(15, 20, 35, 0.5);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 48px 36px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .meta-tag {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        h1.title {
+            font-family: var(--font-editorial);
+            font-size: 2.2rem;
+            font-weight: 400;
+            line-height: 1.3;
+            color: #ffffff;
+            margin-bottom: 32px;
+        }
+
+        .text-block {
+            font-size: 1rem;
+            line-height: 1.85;
+            color: var(--text-main);
+            font-weight: 300;
+            margin-bottom: 24px;
+        }
+
+        .text-block strong {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .btn-scroll {
+            display: inline-block;
+            margin-top: 16px;
+            background: transparent;
+            color: var(--accent-gold);
+            border: none;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            transition: opacity 0.3s;
+        }
+
+        .btn-scroll:hover {
+            opacity: 0.7;
+        }
+
+        .reveal-section {
+            margin-top: 32px;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 32px;
+        }
+
+        .btn-toggle-secret {
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-toggle-secret:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-main);
+        }
+
+        .secret-box {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+            opacity: 0;
+        }
+
+        .secret-box.open {
+            max-height: 500px;
+            opacity: 1;
+            margin-top: 24px;
+        }
+
+        .secret-text {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-main);
+            font-weight: 300;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .final-signature {
+            font-family: var(--font-editorial);
+            font-size: 1.3rem;
+            color: var(--accent-gold);
+            margin-top: 24px;
+            font-style: italic;
+        }
+
+        .audio-bar {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(10, 14, 26, 0.85);
+            border: 1px solid var(--border-subtle);
+            padding: 10px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(8px);
+            z-index: 50;
+        }
+
+        .audio-bar span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .audio-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent-gold);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            .container { padding: 40px 16px; }
+            .letter-card { padding: 32px 20px; }
+            h1.title { font-size: 1.75rem; }
+            .moon-element { width: 60px; height: 60px; top: 20px; right: 20px; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Canvas para estrellas y nebulosa -->
     <canvas id="sky-canvas"></canvas>
+    <div class="moon-element"></div>
 
-    <!-- Luna realista estilizada -->
-    <div class="moon-container">
-        <div class="moon">
-            <div class="moon-crater crater-1"></div>
-            <div class="moon-crater crater-2"></div>
-            <div class="moon-crater crater-3"></div>
-            <div class="moon-crater crater-4"></div>
-        </div>
-        <div class="moon-glow"></div>
+    <div id="intro-screen" class="intro-screen">
+        <p>Yetssie Alexandra</p>
+        <button id="btn-start" class="btn-enter">Entrar</button>
     </div>
 
-    <!-- Pantalla de bienvenida / Control de Autoplay -->
-    <div id="audio-overlay" class="audio-overlay">
-        <div class="audio-card">
-            <div class="music-icon-wrap">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            </div>
-            <h2>Una experiencia bajo las estrellas</h2>
-            <p>Para una experiencia completa e inmersiva con música de fondo ("All of Me — John Legend"), toca el botón para comenzar.</p>
-            <button id="start-btn" class="glow-button">Iniciar Experiencia ✨</button>
-        </div>
-    </div>
+    <main class="container">
 
-    <!-- Contenedor Principal con Scroll Suave -->
-    <main class="main-container">
+        <article class="letter-card">
+            <span class="meta-tag">Carta</span>
+            <h1 class="title">Para Yetssie Alexandra</h1>
+            
+            <p class="text-block">
+                Hay personas que llegan a nuestra vida y simplemente pasan... y hay otras que llegan y hacen que todo se sienta diferente.
+            </p>
+            <p class="text-block">
+                <strong>Tú eres de esas personas.</strong>
+            </p>
 
-        <!-- ========================
-             PRIMERA SECCIÓN
-             ======================== -->
-        <section id="section1" class="hero-section">
-            <div class="card-glass intro-card">
-                <span class="sub-subtitle">CARTA DIGITAL</span>
-                <h1 class="title-primary">Para Yetssie Alexandra</h1>
-                <p class="subtitle-romantic">Una pequeña carta para la persona que ilumina mis noches</p>
+            <button id="scroll-btn" class="btn-scroll">Continuar leyendo &darr;</button>
+        </article>
+
+        <article id="part-2" class="letter-card">
+            <span class="meta-tag">Bajo el mismo cielo</span>
+            <p class="text-block" style="font-family: var(--font-editorial); font-size: 1.2rem; font-style: italic; color: #ffffff;">
+                "Si pudiera pedirle algo a la luna, no le pediría que brillara más. Le pediría que nunca dejara de recordarme lo afortunado que soy de haberte encontrado."
+            </p>
+            <p class="text-block">
+                Entre millones de personas, miles de caminos y tantas noches, mi corazón tuvo la suerte de encontrarte a ti.
+            </p>
+
+            <div class="reveal-section">
+                <button id="btn-reveal" class="btn-toggle-secret">Abrir nota final</button>
                 
-                <div class="divider"></div>
-
-                <p class="letter-body">
-                    Hay personas que llegan a nuestra vida y simplemente pasan...<br>
-                    y hay otras que llegan y hacen que todo se sienta diferente.
-                </p>
-                <p class="letter-highlight">Tú eres de esas personas.</p>
-
-                <p class="signature">Con amor,<br><span>Adrian</span></p>
-
-                <div class="action-wrap">
-                    <a href="#section2" id="btn-tocame" class="glow-button nav-link">Toque aquí</a>
-                    <span class="small-hint">Hay algo que quiero decirte...</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========================
-             SEGUNDA SECCIÓN
-             ======================== -->
-        <section id="section2" class="content-section">
-            <div class="card-glass main-card">
-                <span class="header-badge">BAJO LA MISMA LUNA</span>
-                <h2 class="name-title">Yetssie Alexandra</h2>
-
-                <div class="quote-box">
-                    <p class="quote-text">
-                        "Si pudiera pedirle algo a la luna, no le pediría que brillara más. 
-                        Le pediría que nunca dejara de recordarme lo afortunado que soy de haberte encontrado."
-                    </p>
-                </div>
-
-                <p class="p-romantic">
-                    Entre millones de personas, miles de caminos y tantas noches, 
-                    mi corazón tuvo la suerte de encontrarte a ti.
-                </p>
-
-                <!-- Tarjeta Interactiva / Mensaje Oculto -->
-                <div class="hidden-message-wrapper">
-                    <button id="toggle-secret-btn" class="secret-trigger-btn">
-                        <span class="heart-icon">♡</span> Toca para descubrir algo más
-                    </button>
-
-                    <div id="secret-content" class="secret-content hidden">
-                        <div class="secret-inner">
-                            <p class="secret-text">
-                                No quiero prometerte un amor perfecto, porque lo perfecto no existe.
-                            </p>
-                            <p class="secret-text highlight-gold">
-                                Quiero prometerte algo mejor:<br>
-                                estar, aprender, cuidarte, escucharte, hacerte reír y elegirte una y otra vez.
-                            </p>
-                            <p class="secret-text">
-                                Y si algún día miras la luna y sientes que está demasiado lejos, recuerda esto:
-                            </p>
-
-                            <blockquote class="main-quote">
-                                "Aunque estemos lejos, siempre habrá una luna mirando el mismo cielo que nosotros."
-                            </blockquote>
-
-                            <p class="final-love">Te quiero, Yetssie. ❤️</p>
-                        </div>
+                <div id="secret-box" class="secret-box">
+                    <div class="secret-text">
+                        <p style="margin-bottom: 12px;">
+                            No quiero prometerte un amor perfecto, porque lo perfecto no existe. Quiero prometerte algo mejor: estar, aprender, cuidarte, escucharte, hacerte reír y elegirte una y otra vez.
+                        </p>
+                        <p style="margin-bottom: 12px;">
+                            Y si algún día miras la luna y sientes que está lejos, recuerda que siempre habrá una luna mirando el mismo cielo que nosotros.
+                        </p>
+                        <p class="final-signature">
+                            Te quiero mi ensure.
+                        </p>
                     </div>
                 </div>
-
-                <!-- Reproductor Elegante de Música -->
-                <div class="music-player-card">
-                    <div class="track-info">
-                        <div class="disc-animation" id="music-disc">🎵</div>
-                        <div class="track-details">
-                            <span class="track-title">All of Me</span>
-                            <span class="track-artist">John Legend</span>
-                        </div>
-                    </div>
-                    <button id="audio-toggle-btn" class="player-control-btn" aria-label="Reproducir / Pausar">
-                        <svg id="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        <svg id="pause-icon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                    </button>
-                </div>
-
             </div>
-        </section>
+        </article>
 
     </main>
 
-    <!-- YouTube iFrame API oculto para audio legítimo -->
+    <div class="audio-bar">
+        <span>John Legend — All of Me</span>
+        <button id="play-pause-btn" class="audio-btn">❚❚ Pausa</button>
+    </div>
+
     <div id="youtube-player" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;"></div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="js/script.js"></script>
+    <script>
+        let player = null;
+        let isPlaying = false;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0',
+                width: '0',
+                videoId: '450p7goxZqg',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': '450p7goxZqg'
+                },
+                events: {
+                    'onStateChange': (e) => {
+                        const btn = document.getElementById('play-pause-btn');
+                        if (e.data === YT.PlayerState.PLAYING) {
+                            isPlaying = true;
+                            if (btn) btn.innerText = '❚❚ Pausa';
+                        } else {
+                            isPlaying = false;
+                            if (btn) btn.innerText = '▶ Sonido';
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('sky-canvas');
+            const ctx = canvas.getContext('2d');
+            let w = canvas.width = window.innerWidth;
+            let h = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            });
+
+            const stars = Array.from({ length: 80 }, () => ({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 1.2 + 0.2,
+                a: Math.random()
+            }));
+
+            function drawSky() {
+                ctx.clearRect(0, 0, w, h);
+                ctx.fillStyle = '#ffffff';
+                stars.forEach(s => {
+                    ctx.globalAlpha = s.a;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fill();
+                    s.a += (Math.random() - 0.5) * 0.02;
+                    if (s.a < 0.1) s.a = 0.1;
+                    if (s.a > 0.9) s.a = 0.9;
+                });
+                requestAnimationFrame(drawSky);
+            }
+            drawSky();
+
+            const intro = document.getElementById('intro-screen');
+            const btnStart = document.getElementById('btn-start');
+            const scrollBtn = document.getElementById('scroll-btn');
+            const btnReveal = document.getElementById('btn-reveal');
+            const secretBox = document.getElementById('secret-box');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+
+            btnStart.addEventListener('click', () => {
+                intro.classList.add('hidden');
+                if (player && typeof player.playVideo === 'function') {
+                    player.playVideo();
+                }
+            });
+
+            scrollBtn.addEventListener('click', () => {
+                document.getElementById('part-2').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            btnReveal.addEventListener('click', () => {
+                secretBox.classList.toggle('open');
+                btnReveal.innerText = secretBox.classList.contains('open') ? 'Ocultar nota' : 'Abrir nota final';
+            });
+
+            playPauseBtn.addEventListener('click', () => {
+                if (!player) return;
+                if (isPlaying) {
+                    player.pauseVideo();
+                } else {
+                    player.playVideo();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
