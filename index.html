@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Yetssie Alexandra</title>
     
-    <!-- Tipografía de autor: Playfair Display + Plus Jakarta Sans -->
+    <!-- Tipografía de autor humana y elegante: Playfair Display + Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -37,6 +37,7 @@
             scroll-behavior: smooth;
         }
 
+        /* Canvas de estrellas de fondo */
         #sky-canvas {
             position: fixed;
             top: 0;
@@ -47,6 +48,7 @@
             pointer-events: none;
         }
 
+        /* Elemento discreto de la luna */
         .moon-element {
             position: fixed;
             top: 40px;
@@ -61,6 +63,7 @@
             pointer-events: none;
         }
 
+        /* Pantalla de Entrada minimalista */
         .intro-screen {
             position: fixed;
             top: 0;
@@ -84,9 +87,9 @@
 
         .intro-screen p {
             font-family: var(--font-editorial);
-            font-size: 1.4rem;
+            font-size: 1.25rem;
             font-style: italic;
-            color: var(--text-main);
+            color: var(--text-muted);
             margin-bottom: 32px;
             letter-spacing: 0.5px;
         }
@@ -110,6 +113,7 @@
             background: rgba(212, 175, 55, 0.08);
         }
 
+        /* Layout de Contenido Principal */
         .container {
             max-width: 580px;
             margin: 0 auto;
@@ -177,6 +181,7 @@
             opacity: 0.7;
         }
 
+        /* Sección Oculta / Revelable */
         .reveal-section {
             margin-top: 32px;
             border-top: 1px solid var(--border-subtle);
@@ -232,6 +237,7 @@
             font-style: italic;
         }
 
+        /* Reproductor Discreto */
         .audio-bar {
             position: fixed;
             bottom: 24px;
@@ -278,13 +284,16 @@
     <canvas id="sky-canvas"></canvas>
     <div class="moon-element"></div>
 
+    <!-- PANTALLA INICIAL (Sin textos genéricos) -->
     <div id="intro-screen" class="intro-screen">
         <p>Yetssie Alexandra</p>
         <button id="btn-start" class="btn-enter">Entrar</button>
     </div>
 
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="container">
 
+        <!-- PRIMERA CARTA -->
         <article class="letter-card">
             <span class="meta-tag">Carta</span>
             <h1 class="title">Para Yetssie Alexandra</h1>
@@ -299,6 +308,7 @@
             <button id="scroll-btn" class="btn-scroll">Continuar leyendo &darr;</button>
         </article>
 
+        <!-- SEGUNDA CARTA -->
         <article id="part-2" class="letter-card">
             <span class="meta-tag">Bajo el mismo cielo</span>
             <p class="text-block" style="font-family: var(--font-editorial); font-size: 1.2rem; font-style: italic; color: #ffffff;">
@@ -329,6 +339,7 @@
 
     </main>
 
+    <!-- REPRODUCTOR DISCRETO (YouTube ID exacto: 450p7goxZqg) -->
     <div class="audio-bar">
         <span>John Legend — All of Me</span>
         <button id="play-pause-btn" class="audio-btn">❚❚ Pausa</button>
@@ -338,6 +349,7 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        // Lógica de Audio YouTube exacto con la URL provista
         let player = null;
         let isPlaying = false;
 
@@ -345,7 +357,7 @@
             player = new YT.Player('youtube-player', {
                 height: '0',
                 width: '0',
-                videoId: '450p7goxZqg',
+                videoId: '450p7goxZqg', // ID oficial del video suministrado
                 playerVars: {
                     'autoplay': 0,
                     'controls': 0,
@@ -368,6 +380,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Fondo de Estrellas Sobrio
             const canvas = document.getElementById('sky-canvas');
             const ctx = canvas.getContext('2d');
             let w = canvas.width = window.innerWidth;
@@ -401,6 +414,7 @@
             }
             drawSky();
 
+            // Interacciones
             const intro = document.getElementById('intro-screen');
             const btnStart = document.getElementById('btn-start');
             const scrollBtn = document.getElementById('scroll-btn');
