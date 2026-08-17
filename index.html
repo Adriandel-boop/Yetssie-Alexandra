@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Yetssie Alexandra — Un Cielo Solo Para Nosotros</title>
     
-    <!-- Fuentes tipográficas elegantes y románticas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
@@ -13,8 +12,8 @@
     <style>
         :root {
             --bg-deep: #03050d;
-            --bg-card: rgba(14, 20, 38, 0.65);
-            --border-glow: rgba(212, 175, 55, 0.25);
+            --bg-card: rgba(14, 20, 38, 0.75);
+            --border-glow: rgba(212, 175, 55, 0.3);
             --text-gold: #f3e5ab;
             --text-main: #e8ecf8;
             --text-muted: #a3b1cc;
@@ -33,7 +32,7 @@
         }
 
         html, body {
-            background-color: var(--bg-deep);
+            background-color: #03050d !important;
             color: var(--text-main);
             font-family: var(--font-body);
             min-height: 100vh;
@@ -41,67 +40,69 @@
             position: relative;
         }
 
-        /* Lienzo interactivo de estrellas y partículas */
+        /* Fondo general de estrellas */
         #stars-canvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
             pointer-events: none;
         }
 
-        /* Luna Protagonista Iluminada */
+        /* Luna fija y garantizada con imagen real de alta definición */
         .lunar-wrapper {
             position: fixed;
-            top: 30px;
-            right: 5%;
-            width: 150px;
-            height: 150px;
-            z-index: -1;
+            top: 25px;
+            right: 25px;
+            width: 130px;
+            height: 130px;
+            z-index: 2;
             pointer-events: none;
-            transition: all 0.5s ease;
+            border-radius: 50%;
         }
 
         .moon {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fffbf0 25%, #e2d7be 55%, #a89f8d 100%);
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/600px-FullMoon2010.jpg');
+            background-size: cover;
+            background-position: center;
             box-shadow: 
-                0 0 30px rgba(255, 252, 235, 0.4),
-                0 0 70px rgba(212, 175, 55, 0.2),
-                inset -15px -15px 30px rgba(0, 0, 0, 0.4);
-            animation: moonPulse 6s ease-in-out infinite alternate;
+                0 0 35px rgba(255, 252, 235, 0.8),
+                0 0 70px rgba(212, 175, 55, 0.4),
+                inset -8px -8px 20px rgba(0, 0, 0, 0.6);
+            animation: moonGlow 5s ease-in-out infinite alternate;
         }
 
         .moon-halo {
             position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
+            top: -25px;
+            left: -25px;
+            right: -25px;
+            bottom: -25px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 248, 220, 0.15) 0%, rgba(255, 248, 220, 0) 70%);
-            animation: haloPulse 8s ease-in-out infinite alternate;
+            background: radial-gradient(circle, rgba(255, 248, 220, 0.3) 0%, rgba(255, 248, 220, 0) 75%);
+            animation: haloGlow 7s ease-in-out infinite alternate;
         }
 
-        @keyframes moonPulse {
-            0% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 252, 235, 0.4), 0 0 70px rgba(212, 175, 55, 0.2); }
-            100% { transform: scale(1.03); box-shadow: 0 0 45px rgba(255, 252, 235, 0.6), 0 0 90px rgba(255, 123, 156, 0.25); }
+        @keyframes moonGlow {
+            0% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 252, 235, 0.7), 0 0 60px rgba(212, 175, 55, 0.3); }
+            100% { transform: scale(1.04); box-shadow: 0 0 50px rgba(255, 252, 235, 0.9), 0 0 90px rgba(255, 123, 156, 0.4); }
         }
 
-        @keyframes haloPulse {
+        @keyframes haloGlow {
             0% { opacity: 0.5; transform: scale(0.95); }
-            100% { opacity: 0.9; transform: scale(1.1); }
+            100% { opacity: 0.95; transform: scale(1.15); }
         }
 
         /* Modal / Pantalla de Entrada */
         .intro-screen {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at center, #0c1226 0%, #03050d 100%);
+            background: rgba(3, 5, 13, 0.95);
             z-index: 1000;
             display: flex;
             flex-direction: column;
@@ -119,7 +120,6 @@
             pointer-events: none;
         }
 
-        /* Marco especial para la foto en la portada */
         .photo-container {
             position: relative;
             width: 220px;
@@ -127,8 +127,8 @@
             margin-bottom: 20px;
             border-radius: 20px;
             padding: 8px;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.4), rgba(255, 123, 156, 0.4));
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px rgba(212, 175, 55, 0.3);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.5), rgba(255, 123, 156, 0.5));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 55, 0.4);
             animation: floatPhoto 4s ease-in-out infinite alternate;
         }
 
@@ -174,7 +174,6 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
-        /* Botones Románticos Estilo Flotante */
         .btn-romantic {
             position: relative;
             display: inline-flex;
@@ -182,7 +181,7 @@
             justify-content: center;
             gap: 10px;
             padding: 14px 36px;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(255, 123, 156, 0.2) 100%);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(255, 123, 156, 0.3) 100%);
             border: 1px solid var(--border-glow);
             border-radius: 50px;
             color: var(--text-gold);
@@ -199,35 +198,13 @@
             text-decoration: none;
         }
 
-        .btn-romantic::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            transition: left 0.7s;
-        }
-
         .btn-romantic:hover {
             transform: translateY(-4px) scale(1.03);
             border-color: var(--gold-accent);
             color: #ffffff;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 123, 156, 0.4);
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(255, 123, 156, 0.35) 100%);
         }
 
-        .btn-romantic:hover::before {
-            left: 100%;
-        }
-
-        .btn-romantic:active {
-            transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Contenedor Principal de Navegación */
         .app-container {
             max-width: 680px;
             margin: 0 auto;
@@ -236,9 +213,10 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Pestañas / Páginas con transiciones suaves */
         .page-section {
             display: none;
             opacity: 0;
@@ -252,27 +230,17 @@
             transform: translateY(0) scale(1);
         }
 
-        /* Tarjetas Estilo Glassmorphism Romántico */
         .romantic-card {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             padding: 40px 32px;
             margin-bottom: 25px;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15),
-                0 0 30px rgba(120, 80, 180, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .romantic-card:hover {
-            border-color: rgba(212, 175, 55, 0.3);
-            transform: translateY(-2px);
         }
 
         .romantic-card::after {
@@ -283,10 +251,9 @@
             width: 100%;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--gold-accent), var(--pink-accent), transparent);
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
-        /* Tipografías e Impacto Visual */
         .section-tag {
             font-family: var(--font-serif);
             font-size: 0.8rem;
@@ -295,7 +262,6 @@
             color: var(--gold-accent);
             display: inline-block;
             margin-bottom: 16px;
-            opacity: 0.9;
         }
 
         .card-title {
@@ -304,7 +270,6 @@
             color: #ffffff;
             line-height: 1.3;
             margin-bottom: 25px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             font-weight: 600;
         }
 
@@ -327,21 +292,19 @@
             font-style: italic;
             color: #ffffff;
             border-left: 3px solid var(--gold-accent);
-            padding-left: 20px;
             margin: 25px 0;
             line-height: 1.7;
-            background: rgba(212, 175, 55, 0.04);
+            background: rgba(212, 175, 55, 0.08);
             padding: 18px 20px;
             border-radius: 0 12px 12px 0;
         }
 
         .secret-box {
             margin-top: 25px;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px dashed rgba(212, 175, 55, 0.3);
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px dashed rgba(212, 175, 55, 0.4);
             border-radius: 12px;
             padding: 24px;
-            transition: all 0.5s ease;
         }
 
         .signature {
@@ -350,10 +313,8 @@
             color: var(--pink-accent);
             text-align: right;
             margin-top: 20px;
-            text-shadow: 0 0 10px rgba(255, 123, 156, 0.3);
         }
 
-        /* Barra de Navegación Inferior / Controles de Páginas */
         .nav-controls {
             display: flex;
             justify-content: space-between;
@@ -362,21 +323,20 @@
             margin-top: 20px;
         }
 
-        /* Reproductor de Música Elegante Integrado */
         .audio-player-widget {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(10, 14, 28, 0.88);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(10, 14, 28, 0.92);
+            border: 1px solid rgba(212, 175, 55, 0.4);
             border-radius: 50px;
-            padding: 8px 20px;
+            padding: 10px 24px;
             display: flex;
             align-items: center;
             gap: 15px;
             backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             z-index: 500;
             max-width: 90%;
         }
@@ -390,7 +350,6 @@
             font-size: 0.85rem;
             color: var(--text-gold);
             font-weight: 500;
-            white-space: nowrap;
         }
 
         .audio-sub {
@@ -401,8 +360,8 @@
         .music-btn {
             background: linear-gradient(135deg, var(--gold-accent), var(--pink-accent));
             border: none;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             color: #03050d;
             display: flex;
@@ -410,17 +369,10 @@
             justify-content: center;
             cursor: pointer;
             font-size: 0.9rem;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
             flex-shrink: 0;
         }
 
-        .music-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 18px rgba(255, 123, 156, 0.6);
-        }
-
-        /* Ajustes Responsive */
         @media (max-width: 600px) {
             .lunar-wrapper {
                 width: 90px;
@@ -456,10 +408,9 @@
 </head>
 <body>
 
-    <!-- Canvas para el fondo estelar interactivo y destellos -->
     <canvas id="stars-canvas"></canvas>
 
-    <!-- Luna Iluminada de Fondo -->
+    <!-- LUNA FIJA CON HALO -->
     <div class="lunar-wrapper">
         <div class="moon-halo"></div>
         <div class="moon"></div>
@@ -468,7 +419,7 @@
     <!-- PANTALLA INICIAL DE BIENVENIDA -->
     <div id="intro-screen" class="intro-screen">
         <div class="photo-container">
-            <img src="IMG_1107.jpg" alt="Adrian y Yetssie Alexandra">
+            <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Adrian y Yetssie Alexandra">
         </div>
         <h1 class="intro-title">Para Yetssie Alexandra</h1>
         <p class="intro-subtitle">De parte de Adrian</p>
@@ -478,10 +429,9 @@
         </button>
     </div>
 
-    <!-- CONTENEDOR PRINCIPAL CON NAVEGACIÓN -->
     <div class="app-container">
 
-        <!-- PÁGINA / SECCIÓN 1 -->
+        <!-- PÁGINA 1 -->
         <section id="page-1" class="page-section active">
             <article class="romantic-card">
                 <span class="section-tag">Capítulo I • Carta</span>
@@ -502,7 +452,7 @@
             </article>
         </section>
 
-        <!-- PÁGINA / SECCIÓN 2 -->
+        <!-- PÁGINA 2 -->
         <section id="page-2" class="page-section">
             <article class="romantic-card">
                 <span class="section-tag">Capítulo II • Bajo el mismo cielo</span>
@@ -538,7 +488,7 @@
             </article>
         </section>
 
-        <!-- PÁGINA / SECCIÓN 3 -->
+        <!-- PÁGINA 3 -->
         <section id="page-3" class="page-section">
             <article class="romantic-card" style="text-align: center;">
                 <span class="section-tag">Capítulo III • Eternidad</span>
@@ -567,7 +517,7 @@
 
     </div>
 
-    <!-- REPRODUCTOR DE MÚSICA DE FONDO DE NUESTRA CANCIÓN -->
+    <!-- REPRODUCTOR DE MÚSICA -->
     <div class="audio-player-widget">
         <button id="play-btn" class="music-btn" title="Reproducir / Pausar Música">▶</button>
         <div class="audio-info">
@@ -576,80 +526,29 @@
         </div>
     </div>
 
-    <!-- Elemento de Audio HTML5 confiable con fallback de audio web -->
     <audio id="bg-audio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-acoustic-guitar-112252.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Reproductor de YouTube integrado para reproducción directa -->
-    <div id="youtube-player" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;"></div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        let ytPlayer = null;
-        let isAudioPlaying = false;
         const localAudio = document.getElementById('bg-audio');
-
-        function onYouTubeIframeAPIReady() {
-            ytPlayer = new YT.Player('youtube-player', {
-                height: '0',
-                width: '0',
-                videoId: '2Vv-BfVoq4g', // Ed Sheeran - Perfect
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'loop': 1,
-                    'playlist': '2Vv-BfVoq4g'
-                },
-                events: {
-                    'onStateChange': (e) => {
-                        const btn = document.getElementById('play-btn');
-                        if (e.data === YT.PlayerState.PLAYING) {
-                            isAudioPlaying = true;
-                            btn.innerText = '❚❚';
-                        } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
-                            isAudioPlaying = false;
-                            btn.innerText = '▶';
-                        }
-                    }
-                }
-            });
-        }
+        let isAudioPlaying = false;
 
         function togglePlay() {
             const btn = document.getElementById('play-btn');
-            
-            // Intentar reproducir con la API de YouTube si está lista
-            if (ytPlayer && typeof ytPlayer.playVideo === 'function' && ytPlayer.getPlayerState) {
-                if (isAudioPlaying) {
-                    ytPlayer.pauseVideo();
-                    localAudio.pause();
-                    isAudioPlaying = false;
-                    btn.innerText = '▶';
-                } else {
-                    ytPlayer.playVideo();
+            if (localAudio.paused) {
+                localAudio.play().then(() => {
                     isAudioPlaying = true;
                     btn.innerText = '❚❚';
-                }
+                }).catch(e => console.log("Audio play error: ", e));
             } else {
-                // Alternativa de audio directo en HTML5
-                if (localAudio.paused) {
-                    localAudio.play().then(() => {
-                        isAudioPlaying = true;
-                        btn.innerText = '❚❚';
-                    }).catch(e => {
-                        console.log("Auto-play error: ", e);
-                    });
-                } else {
-                    localAudio.pause();
-                    isAudioPlaying = false;
-                    btn.innerText = '▶';
-                }
+                localAudio.pause();
+                isAudioPlaying = false;
+                btn.innerText = '▶';
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Fondo de cielo nocturno animado con Luna, Estrellas y Partículas por JavaScript
             const canvas = document.getElementById('stars-canvas');
             const ctx = canvas.getContext('2d');
             let w = canvas.width = window.innerWidth;
@@ -660,42 +559,16 @@
                 h = canvas.height = window.innerHeight;
             });
 
-            // Arreglo de Estrellas con destellos y variaciones de brillo
-            const stars = Array.from({ length: 120 }, () => ({
+            const stars = Array.from({ length: 140 }, () => ({
                 x: Math.random() * w,
                 y: Math.random() * h,
-                size: Math.random() * 1.8 + 0.4,
+                size: Math.random() * 2 + 0.5,
                 alpha: Math.random(),
                 speed: Math.random() * 0.012 + 0.004
             }));
 
-            // Arreglo de Pequeños Corazones y Partículas flotantes
-            const hearts = Array.from({ length: 16 }, () => ({
-                x: Math.random() * w,
-                y: Math.random() * h + h,
-                size: Math.random() * 9 + 7,
-                speedY: Math.random() * 0.5 + 0.2,
-                opacity: Math.random() * 0.5 + 0.2,
-                swing: Math.random() * 2
-            }));
-
-            function drawHeart(x, y, size, opacity) {
-                ctx.save();
-                ctx.globalAlpha = opacity;
-                ctx.fillStyle = '#ff7b9c';
-                ctx.beginPath();
-                const d = size;
-                ctx.moveTo(x, y);
-                ctx.bezierCurveTo(x - d/2, y - d/2, x - d, y + d/3, x, y + d);
-                ctx.bezierCurveTo(x + d, y + d/3, x + d/2, y - d/2, x, y);
-                ctx.fill();
-                ctx.restore();
-            }
-
             function animateNightSky() {
                 ctx.clearRect(0, 0, w, h);
-
-                // Dibujar Estrellas Parpadeantes
                 stars.forEach(s => {
                     ctx.globalAlpha = s.alpha;
                     ctx.fillStyle = '#ffffff';
@@ -708,22 +581,10 @@
                         s.speed = -s.speed;
                     }
                 });
-
-                // Dibujar Partículas/Corazones Flotantes Suaves
-                hearts.forEach(hItem => {
-                    drawHeart(hItem.x + Math.sin(hItem.y * 0.01) * hItem.swing, hItem.y, hItem.size, hItem.opacity);
-                    hItem.y -= hItem.speedY;
-                    if (hItem.y < -20) {
-                        hItem.y = h + 20;
-                        hItem.x = Math.random() * w;
-                    }
-                });
-
                 requestAnimationFrame(animateNightSky);
             }
             animateNightSky();
 
-            // Interacción de Portada / Entrada
             const introScreen = document.getElementById('intro-screen');
             const btnEnter = document.getElementById('btn-enter');
             const playBtn = document.getElementById('play-btn');
@@ -737,7 +598,6 @@
                 togglePlay();
             });
 
-            // Transiciones entre Secciones/Páginas
             const nextButtons = document.querySelectorAll('.btn-next');
             const prevButtons = document.querySelectorAll('.btn-prev');
 
@@ -758,17 +618,11 @@
             }
 
             nextButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const nextId = btn.getAttribute('data-next');
-                    switchPage(nextId);
-                });
+                btn.addEventListener('click', () => switchPage(btn.getAttribute('data-next')));
             });
 
             prevButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const prevId = btn.getAttribute('data-prev');
-                    switchPage(prevId);
-                });
+                btn.addEventListener('click', () => switchPage(btn.getAttribute('data-prev')));
             });
         });
     </script>
