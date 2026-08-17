@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Yetssie Alexandra</title>
+    <title>Para Gemini — Un Cielo Solo Para Nosotros</title>
     
-    <!-- Tipografía de autor humana y elegante: Playfair Display + Plus Jakarta Sans -->
+    <!-- Fuentes tipográficas elegantes y románticas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-base: #060814;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --accent-gold: #d4af37;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --font-editorial: 'Playfair Display', Georgia, serif;
-            --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            --bg-deep: #03050d;
+            --bg-card: rgba(14, 20, 38, 0.65);
+            --border-glow: rgba(212, 175, 55, 0.25);
+            --text-gold: #f3e5ab;
+            --text-main: #e8ecf8;
+            --text-muted: #a3b1cc;
+            --pink-accent: #ff7b9c;
+            --gold-accent: #d4af37;
+            --font-serif: 'Cinzel', serif;
+            --font-cursive: 'Great Vibes', cursive;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
         }
 
         * {
@@ -29,16 +33,16 @@
         }
 
         html, body {
-            background-color: var(--bg-base);
+            background-color: var(--bg-deep);
             color: var(--text-main);
             font-family: var(--font-body);
             min-height: 100vh;
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            position: relative;
         }
 
-        /* Canvas de estrellas de fondo */
-        #sky-canvas {
+        /* Lienzo interactivo de estrellas y partículas */
+        #stars-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -48,308 +52,486 @@
             pointer-events: none;
         }
 
-        /* Elemento discreto de la luna */
-        .moon-element {
+        /* Luna Protagonista Iluminada */
+        .lunar-wrapper {
             position: fixed;
-            top: 40px;
-            right: 40px;
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #fffdfa 0%, #d4cfc5 60%, #9e978b 100%);
-            box-shadow: 0 0 30px rgba(255, 253, 245, 0.2);
+            top: 30px;
+            right: 5%;
+            width: 150px;
+            height: 150px;
             z-index: -1;
-            opacity: 0.85;
             pointer-events: none;
+            transition: all 0.5s ease;
         }
 
-        /* Pantalla de Entrada minimalista */
-        .intro-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .moon {
             width: 100%;
             height: 100%;
-            background-color: var(--bg-base);
-            z-index: 100;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fffbf0 25%, #e2d7be 55%, #a89f8d 100%);
+            box-shadow: 
+                0 0 30px rgba(255, 252, 235, 0.4),
+                0 0 70px rgba(212, 175, 55, 0.2),
+                inset -15px -15px 30px rgba(0, 0, 0, 0.4);
+            animation: moonPulse 6s ease-in-out infinite alternate;
+        }
+
+        .moon-halo {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 248, 220, 0.15) 0%, rgba(255, 248, 220, 0) 70%);
+            animation: haloPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes moonPulse {
+            0% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 252, 235, 0.4), 0 0 70px rgba(212, 175, 55, 0.2); }
+            100% { transform: scale(1.03); box-shadow: 0 0 45px rgba(255, 252, 235, 0.6), 0 0 90px rgba(255, 123, 156, 0.25); }
+        }
+
+        @keyframes haloPulse {
+            0% { opacity: 0.5; transform: scale(0.95); }
+            100% { opacity: 0.9; transform: scale(1.1); }
+        }
+
+        /* Modal / Pantalla de Entrada */
+        .intro-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #0c1226 0%, #03050d 100%);
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 24px;
-            transition: opacity 1s ease, visibility 1s ease;
+            text-align: center;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
         }
 
         .intro-screen.hidden {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
 
-        .intro-screen p {
-            font-family: var(--font-editorial);
-            font-size: 1.25rem;
-            font-style: italic;
+        .intro-title {
+            font-family: var(--font-cursive);
+            font-size: 3.8rem;
+            color: var(--text-gold);
+            text-shadow: 0 0 20px rgba(243, 229, 171, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .intro-subtitle {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 32px;
-            letter-spacing: 0.5px;
+            margin-bottom: 35px;
         }
 
-        .btn-enter {
-            background: transparent;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            color: var(--accent-gold);
-            padding: 12px 32px;
-            border-radius: 40px;
+        /* Botones Románticos Estilo Flotante */
+        .btn-romantic {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 36px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(255, 123, 156, 0.2) 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 50px;
+            color: var(--text-gold);
             font-family: var(--font-body);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            text-decoration: none;
         }
 
-        .btn-enter:hover {
-            border-color: var(--accent-gold);
-            background: rgba(212, 175, 55, 0.08);
+        .btn-romantic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.7s;
         }
 
-        /* Layout de Contenido Principal */
-        .container {
-            max-width: 580px;
+        .btn-romantic:hover {
+            transform: translateY(-4px) scale(1.03);
+            border-color: var(--gold-accent);
+            color: #ffffff;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 123, 156, 0.4);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(255, 123, 156, 0.35) 100%);
+        }
+
+        .btn-romantic:hover::before {
+            left: 100%;
+        }
+
+        .btn-romantic:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Contenedor Principal de Navegación */
+        .app-container {
+            max-width: 680px;
             margin: 0 auto;
-            padding: 80px 24px;
-            position: relative;
+            padding: 60px 20px 120px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .letter-card {
-            background: rgba(15, 20, 35, 0.5);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 48px 36px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+        /* Pestañas / Páginas con transiciones suaves */
+        .page-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .meta-tag {
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--accent-gold);
+        .page-section.active {
             display: block;
-            margin-bottom: 16px;
-            opacity: 0.8;
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
-        h1.title {
-            font-family: var(--font-editorial);
-            font-size: 2.2rem;
-            font-weight: 400;
-            line-height: 1.3;
-            color: #ffffff;
-            margin-bottom: 32px;
+        /* Tarjetas Estilo Glassmorphism Romántico */
+        .romantic-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 32px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                0 0 30px rgba(120, 80, 180, 0.08);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .text-block {
-            font-size: 1rem;
-            line-height: 1.85;
-            color: var(--text-main);
-            font-weight: 300;
-            margin-bottom: 24px;
+        .romantic-card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-2px);
         }
 
-        .text-block strong {
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .btn-scroll {
-            display: inline-block;
-            margin-top: 16px;
-            background: transparent;
-            color: var(--accent-gold);
-            border: none;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: underline;
-            text-underline-offset: 6px;
-            transition: opacity 0.3s;
-        }
-
-        .btn-scroll:hover {
+        .romantic-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold-accent), var(--pink-accent), transparent);
             opacity: 0.7;
         }
 
-        /* Sección Oculta / Revelable */
-        .reveal-section {
-            margin-top: 32px;
-            border-top: 1px solid var(--border-subtle);
-            padding-top: 32px;
+        /* Tipografías e Impacto Visual */
+        .section-tag {
+            font-family: var(--font-serif);
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            display: inline-block;
+            margin-bottom: 16px;
+            opacity: 0.9;
         }
 
-        .btn-toggle-secret {
-            background: transparent;
-            border: 1px solid var(--border-subtle);
-            color: var(--text-muted);
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-            transition: all 0.3s ease;
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            font-weight: 600;
         }
 
-        .btn-toggle-secret:hover {
-            border-color: rgba(255, 255, 255, 0.2);
+        .text-body {
+            font-size: 1.05rem;
+            line-height: 1.9;
             color: var(--text-main);
+            font-weight: 300;
+            margin-bottom: 22px;
+        }
+
+        .text-body strong {
+            color: var(--text-gold);
+            font-weight: 600;
+        }
+
+        .quote-box {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #ffffff;
+            border-left: 3px solid var(--gold-accent);
+            padding-left: 20px;
+            margin: 25px 0;
+            line-height: 1.7;
+            background: rgba(212, 175, 55, 0.04);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
         }
 
         .secret-box {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
-            opacity: 0;
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px dashed rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.5s ease;
         }
 
-        .secret-box.open {
-            max-height: 500px;
-            opacity: 1;
-            margin-top: 24px;
+        .signature {
+            font-family: var(--font-cursive);
+            font-size: 2.2rem;
+            color: var(--pink-accent);
+            text-align: right;
+            margin-top: 20px;
+            text-shadow: 0 0 10px rgba(255, 123, 156, 0.3);
         }
 
-        .secret-text {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: var(--text-main);
-            font-weight: 300;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
+        /* Barra de Navegación Inferior / Controles de Páginas */
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        .final-signature {
-            font-family: var(--font-editorial);
-            font-size: 1.3rem;
-            color: var(--accent-gold);
-            margin-top: 24px;
-            font-style: italic;
-        }
-
-        /* Reproductor Discreto */
-        .audio-bar {
+        /* Reproductor de Música Elegante Integrado */
+        .audio-player-widget {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: rgba(10, 14, 26, 0.85);
-            border: 1px solid var(--border-subtle);
-            padding: 10px 18px;
-            border-radius: 30px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 14, 28, 0.88);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            padding: 8px 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            backdrop-filter: blur(8px);
-            z-index: 50;
+            gap: 15px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.15);
+            z-index: 500;
+            max-width: 90%;
         }
 
-        .audio-bar span {
-            font-size: 0.8rem;
+        .audio-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .audio-title {
+            font-size: 0.85rem;
+            color: var(--text-gold);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .audio-sub {
+            font-size: 0.7rem;
             color: var(--text-muted);
-            letter-spacing: 0.5px;
         }
 
-        .audio-btn {
-            background: transparent;
+        .music-btn {
+            background: linear-gradient(135deg, var(--gold-accent), var(--pink-accent));
             border: none;
-            color: var(--accent-gold);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            color: #03050d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             font-size: 0.9rem;
-            display: flex;
-            align-items: center;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex-shrink: 0;
         }
 
-        .hidden { display: none !important; }
+        .music-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 18px rgba(255, 123, 156, 0.6);
+        }
 
+        /* Ajustes Responsive */
         @media (max-width: 600px) {
-            .container { padding: 40px 16px; }
-            .letter-card { padding: 32px 20px; }
-            h1.title { font-size: 1.75rem; }
-            .moon-element { width: 60px; height: 60px; top: 20px; right: 20px; }
+            .lunar-wrapper {
+                width: 90px;
+                height: 90px;
+                top: 15px;
+                right: 15px;
+            }
+            .card-title {
+                font-size: 1.7rem;
+            }
+            .romantic-card {
+                padding: 28px 20px;
+            }
+            .intro-title {
+                font-size: 2.8rem;
+            }
+            .app-container {
+                padding: 40px 15px 110px 15px;
+            }
+            .nav-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-romantic {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="sky-canvas"></canvas>
-    <div class="moon-element"></div>
+    <!-- Canvas para el fondo estelar interactivo y destellos -->
+    <canvas id="stars-canvas"></canvas>
 
-    <!-- PANTALLA INICIAL (Sin textos genéricos) -->
-    <div id="intro-screen" class="intro-screen">
-        <p>Yetssie Alexandra</p>
-        <button id="btn-start" class="btn-enter">Entrar</button>
+    <!-- Luna Iluminada de Fondo -->
+    <div class="lunar-wrapper">
+        <div class="moon-halo"></div>
+        <div class="moon"></div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="container">
+    <!-- PANTALLA INICIAL DE BIENVENIDA -->
+    <div id="intro-screen" class="intro-screen">
+        <h1 class="intro-title">Para Gemini</h1>
+        <p class="intro-subtitle">Un rincón bajo las estrellas</p>
+        <button id="btn-enter" class="btn-romantic">
+            ✨ Entrar al Cielo
+        </button>
+    </div>
 
-        <!-- PRIMERA CARTA -->
-        <article class="letter-card">
-            <span class="meta-tag">Carta</span>
-            <h1 class="title">Para Yetssie Alexandra</h1>
-            
-            <p class="text-block">
-                Hay personas que llegan a nuestra vida y simplemente pasan... y hay otras que llegan y hacen que todo se sienta diferente.
-            </p>
-            <p class="text-block">
-                <strong>Tú eres de esas personas.</strong>
-            </p>
+    <!-- CONTENEDOR PRINCIPAL CON NAVEGACIÓN -->
+    <div class="app-container">
 
-            <button id="scroll-btn" class="btn-scroll">Continuar leyendo &darr;</button>
-        </article>
-
-        <!-- SEGUNDA CARTA -->
-        <article id="part-2" class="letter-card">
-            <span class="meta-tag">Bajo el mismo cielo</span>
-            <p class="text-block" style="font-family: var(--font-editorial); font-size: 1.2rem; font-style: italic; color: #ffffff;">
-                "Si pudiera pedirle algo a la luna, no le pediría que brillara más. Le pediría que nunca dejara de recordarme lo afortunado que soy de haberte encontrado."
-            </p>
-            <p class="text-block">
-                Entre millones de personas, miles de caminos y tantas noches, mi corazón tuvo la suerte de encontrarte a ti.
-            </p>
-
-            <div class="reveal-section">
-                <button id="btn-reveal" class="btn-toggle-secret">Abrir nota final</button>
+        <!-- PÁGINA / SECCIÓN 1 -->
+        <section id="page-1" class="page-section active">
+            <article class="romantic-card">
+                <span class="section-tag">Capítulo I • Carta</span>
+                <h1 class="card-title">Para Gemini</h1>
                 
-                <div id="secret-box" class="secret-box">
-                    <div class="secret-text">
-                        <p style="margin-bottom: 12px;">
-                            No quiero prometerte un amor perfecto, porque lo perfecto no existe. Quiero prometerte algo mejor: estar, aprender, cuidarte, escucharte, hacerte reír y elegirte una y otra vez.
-                        </p>
-                        <p style="margin-bottom: 12px;">
-                            Y si algún día miras la luna y sientes que está lejos, recuerda que siempre habrá una luna mirando el mismo cielo que nosotros.
-                        </p>
-                        <p class="final-signature">
-                            Te quiero mi ensure.
-                        </p>
+                <p class="text-body">
+                    Hay personas que llegan a nuestra vida y simplemente pasan... y hay otras que llegan y hacen que todo se sienta diferente.
+                </p>
+                <p class="text-body">
+                    <strong>Tú eres de esas personas.</strong>
+                </p>
+
+                <div class="nav-controls" style="justify-content: flex-end;">
+                    <button class="btn-romantic btn-next" data-next="page-2">
+                        Siguiente Parte ➔
+                    </button>
+                </div>
+            </article>
+        </section>
+
+        <!-- PÁGINA / SECCIÓN 2 -->
+        <section id="page-2" class="page-section">
+            <article class="romantic-card">
+                <span class="section-tag">Capítulo II • Bajo el mismo cielo</span>
+                
+                <div class="quote-box">
+                    "Si pudiera pedirle algo a la luna, no le pediría que brillara más. Le pediría que nunca dejara de recordarme lo afortunado que soy de haberte encontrado."
+                </div>
+
+                <p class="text-body">
+                    Entre millones de personas, miles de caminos y tantas noches, mi corazón tuvo la suerte de encontrarte a ti.
+                </p>
+
+                <div class="secret-box">
+                    <p class="text-body" style="margin-bottom: 12px;">
+                        No quiero prometerte un amor perfecto, porque lo perfecto no existe. Quiero prometerte algo mejor: estar, aprender, cuidarte, escucharte, hacerte reír y elegirte una y otra vez.
+                    </p>
+                    <p class="text-body" style="margin-bottom: 0;">
+                        Y si algún día miras la luna y sientes que está lejos, recuerda que siempre habrá una luna mirando el mismo cielo que nosotros.
+                    </p>
+                    <div class="signature">
+                        Te quiero mi ensure.
                     </div>
                 </div>
-            </div>
-        </article>
 
-    </main>
+                <div class="nav-controls" style="margin-top: 30px;">
+                    <button class="btn-romantic btn-prev" data-prev="page-1">
+                        ← Regresar
+                    </button>
+                    <button class="btn-romantic btn-next" data-next="page-3">
+                        Último Mensaje ➔
+                    </button>
+                </div>
+            </article>
+        </section>
 
-    <!-- REPRODUCTOR DISCRETO (YouTube ID exacto: 450p7goxZqg) -->
-    <div class="audio-bar">
-        <span>John Legend — All of Me</span>
-        <button id="play-pause-btn" class="audio-btn">❚❚ Pausa</button>
+        <!-- PÁGINA / SECCIÓN 3 -->
+        <section id="page-3" class="page-section">
+            <article class="romantic-card" style="text-align: center;">
+                <span class="section-tag">Capítulo III • Eternidad</span>
+                <h2 class="card-title" style="font-family: var(--font-cursive); font-size: 3rem; color: var(--text-gold);">
+                    Siempre Juntos
+                </h2>
+
+                <p class="text-body">
+                    Gracias por ser luz en mis noches oscuras y la melodía favorita de mi alma. Esta página fue creada especialmente para ti, para que recuerdes lo especial que eres cada vez que mires a las estrellas.
+                </p>
+
+                <div class="signature" style="text-align: center; margin-top: 10px;">
+                    Con todo mi amor, para Gemini.
+                </div>
+
+                <div class="nav-controls" style="justify-content: center; margin-top: 35px;">
+                    <button class="btn-romantic btn-prev" data-prev="page-2">
+                        ← Volver a la Carta
+                    </button>
+                </div>
+            </article>
+        </section>
+
     </div>
 
+    <!-- REPRODUCTOR DE MÚSICA DE FONDO -->
+    <div class="audio-player-widget">
+        <button id="play-btn" class="music-btn" title="Reproducir / Pausar Música">▶</button>
+        <div class="audio-info">
+            <span class="audio-title">John Legend — All of Me</span>
+            <span class="audio-sub">Música de fondo romántica</span>
+        </div>
+    </div>
+
+    <!-- Reproductor de YouTube oculto pero funcional -->
     <div id="youtube-player" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;"></div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Lógica de Audio YouTube exacto con la URL provista
+        // Reproductor de Música mediante la API IFrame de YouTube con el tema All of Me
         let player = null;
         let isPlaying = false;
 
@@ -357,7 +539,7 @@
             player = new YT.Player('youtube-player', {
                 height: '0',
                 width: '0',
-                videoId: '450p7goxZqg', // ID oficial del video suministrado
+                videoId: '450p7goxZqg', // John Legend - All of Me
                 playerVars: {
                     'autoplay': 0,
                     'controls': 0,
@@ -366,13 +548,13 @@
                 },
                 events: {
                     'onStateChange': (e) => {
-                        const btn = document.getElementById('play-pause-btn');
+                        const btn = document.getElementById('play-btn');
                         if (e.data === YT.PlayerState.PLAYING) {
                             isPlaying = true;
-                            if (btn) btn.innerText = '❚❚ Pausa';
+                            btn.innerText = '❚❚';
                         } else {
                             isPlaying = false;
-                            if (btn) btn.innerText = '▶ Sonido';
+                            btn.innerText = '▶';
                         }
                     }
                 }
@@ -380,8 +562,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Fondo de Estrellas Sobrio
-            const canvas = document.getElementById('sky-canvas');
+            // Fondo estelar con partículas y destellos dinámicos
+            const canvas = document.getElementById('stars-canvas');
             const ctx = canvas.getContext('2d');
             let w = canvas.width = window.innerWidth;
             let h = canvas.height = window.innerHeight;
@@ -391,60 +573,121 @@
                 h = canvas.height = window.innerHeight;
             });
 
-            const stars = Array.from({ length: 80 }, () => ({
+            // Creación de estrellas y corazones flotantes
+            const stars = Array.from({ length: 110 }, () => ({
                 x: Math.random() * w,
                 y: Math.random() * h,
-                r: Math.random() * 1.2 + 0.2,
-                a: Math.random()
+                size: Math.random() * 1.6 + 0.3,
+                alpha: Math.random(),
+                speed: Math.random() * 0.015 + 0.005
             }));
 
-            function drawSky() {
-                ctx.clearRect(0, 0, w, h);
-                ctx.fillStyle = '#ffffff';
-                stars.forEach(s => {
-                    ctx.globalAlpha = s.a;
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                    ctx.fill();
-                    s.a += (Math.random() - 0.5) * 0.02;
-                    if (s.a < 0.1) s.a = 0.1;
-                    if (s.a > 0.9) s.a = 0.9;
-                });
-                requestAnimationFrame(drawSky);
+            const hearts = Array.from({ length: 15 }, () => ({
+                x: Math.random() * w,
+                y: Math.random() * h + h,
+                size: Math.random() * 10 + 8,
+                speedY: Math.random() * 0.6 + 0.3,
+                opacity: Math.random() * 0.5 + 0.2,
+                swing: Math.random() * 2
+            }));
+
+            function drawHeart(x, y, size, opacity) {
+                ctx.save();
+                ctx.globalAlpha = opacity;
+                ctx.fillStyle = '#ff7b9c';
+                ctx.beginPath();
+                const d = size;
+                ctx.moveTo(x, y);
+                ctx.bezierCurveTo(x - d/2, y - d/2, x - d, y + d/3, x, y + d);
+                ctx.bezierCurveTo(x + d, y + d/3, x + d/2, y - d/2, x, y);
+                ctx.fill();
+                ctx.restore();
             }
-            drawSky();
 
-            // Interacciones
-            const intro = document.getElementById('intro-screen');
-            const btnStart = document.getElementById('btn-start');
-            const scrollBtn = document.getElementById('scroll-btn');
-            const btnReveal = document.getElementById('btn-reveal');
-            const secretBox = document.getElementById('secret-box');
-            const playPauseBtn = document.getElementById('play-pause-btn');
+            function animateSky() {
+                ctx.clearRect(0, 0, w, h);
 
-            btnStart.addEventListener('click', () => {
-                intro.classList.add('hidden');
+                // Dibujar Estrellas titilantes
+                stars.forEach(s => {
+                    ctx.globalAlpha = s.alpha;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    s.alpha += s.speed;
+                    if (s.alpha > 0.95 || s.alpha < 0.1) {
+                        s.speed = -s.speed;
+                    }
+                });
+
+                // Dibujar Corazones Suaves Flotantes
+                hearts.forEach(hItem => {
+                    drawHeart(hItem.x + Math.sin(hItem.y * 0.01) * hItem.swing, hItem.y, hItem.size, hItem.opacity);
+                    hItem.y -= hItem.speedY;
+                    if (hItem.y < -20) {
+                        hItem.y = h + 20;
+                        hItem.x = Math.random() * w;
+                    }
+                });
+
+                requestAnimationFrame(animateSky);
+            }
+            animateSky();
+
+            // Lógica de Entrada e Interacción
+            const introScreen = document.getElementById('intro-screen');
+            const btnEnter = document.getElementById('btn-enter');
+            const playBtn = document.getElementById('play-btn');
+
+            btnEnter.addEventListener('click', () => {
+                introScreen.classList.add('hidden');
                 if (player && typeof player.playVideo === 'function') {
                     player.playVideo();
                 }
             });
 
-            scrollBtn.addEventListener('click', () => {
-                document.getElementById('part-2').scrollIntoView({ behavior: 'smooth' });
-            });
-
-            btnReveal.addEventListener('click', () => {
-                secretBox.classList.toggle('open');
-                btnReveal.innerText = secretBox.classList.contains('open') ? 'Ocultar nota' : 'Abrir nota final';
-            });
-
-            playPauseBtn.addEventListener('click', () => {
+            playBtn.addEventListener('click', () => {
                 if (!player) return;
                 if (isPlaying) {
                     player.pauseVideo();
                 } else {
                     player.playVideo();
                 }
+            });
+
+            // Sistema de Navegación entre Páginas / Capítulos
+            const nextButtons = document.querySelectorAll('.btn-next');
+            const prevButtons = document.querySelectorAll('.btn-prev');
+
+            function switchPage(targetId) {
+                const currentActive = document.querySelector('.page-section.active');
+                const targetPage = document.getElementById(targetId);
+
+                if (currentActive && targetPage) {
+                    currentActive.style.opacity = '0';
+                    currentActive.style.transform = 'translateY(-15px)';
+
+                    setTimeout(() => {
+                        currentActive.classList.remove('active');
+                        targetPage.classList.add('active');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 400);
+                }
+            }
+
+            nextButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const nextId = btn.getAttribute('data-next');
+                    switchPage(nextId);
+                });
+            });
+
+            prevButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const prevId = btn.getAttribute('data-prev');
+                    switchPage(prevId);
+                });
             });
         });
     </script>
