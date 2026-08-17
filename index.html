@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Gemini — Un Cielo Solo Para Nosotros</title>
+    <title>Para Yetssie Alexandra — Un Cielo Solo Para Nosotros</title>
     
     <!-- Fuentes tipográficas elegantes y románticas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,6 +110,7 @@
             padding: 24px;
             text-align: center;
             transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+            overflow-y: auto;
         }
 
         .intro-screen.hidden {
@@ -118,21 +119,59 @@
             pointer-events: none;
         }
 
+        /* Marco especial para la foto en la portada */
+        .photo-container {
+            position: relative;
+            width: 220px;
+            height: 280px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            padding: 8px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.4), rgba(255, 123, 156, 0.4));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px rgba(212, 175, 55, 0.3);
+            animation: floatPhoto 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatPhoto {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-8px); }
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 14px;
+            display: block;
+        }
+
         .intro-title {
             font-family: var(--font-cursive);
-            font-size: 3.8rem;
+            font-size: 3.5rem;
             color: var(--text-gold);
             text-shadow: 0 0 20px rgba(243, 229, 171, 0.5);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .intro-subtitle {
             font-family: var(--font-serif);
-            font-size: 1.1rem;
-            letter-spacing: 4px;
+            font-size: 1rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 35px;
+            color: var(--pink-accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .intro-message {
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            color: var(--text-main);
+            margin-bottom: 25px;
+            font-style: italic;
+            max-width: 450px;
+            line-height: 1.5;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
         /* Botones Románticos Estilo Flotante */
@@ -398,6 +437,10 @@
             .intro-title {
                 font-size: 2.8rem;
             }
+            .photo-container {
+                width: 180px;
+                height: 230px;
+            }
             .app-container {
                 padding: 40px 15px 110px 15px;
             }
@@ -424,10 +467,14 @@
 
     <!-- PANTALLA INICIAL DE BIENVENIDA -->
     <div id="intro-screen" class="intro-screen">
-        <h1 class="intro-title">Para Gemini</h1>
-        <p class="intro-subtitle">Un rincón bajo las estrellas</p>
+        <div class="photo-container">
+            <img src="IMG_1107.jpg" alt="Adrian y Yetssie Alexandra">
+        </div>
+        <h1 class="intro-title">Para Yetssie Alexandra</h1>
+        <p class="intro-subtitle">De parte de Adrian</p>
+        <p class="intro-message">"Espero que estés conmigo para toda la vida."</p>
         <button id="btn-enter" class="btn-romantic">
-            ✨ Entrar al Cielo
+            Entra aquí ❤️
         </button>
     </div>
 
@@ -438,7 +485,7 @@
         <section id="page-1" class="page-section active">
             <article class="romantic-card">
                 <span class="section-tag">Capítulo I • Carta</span>
-                <h1 class="card-title">Para Gemini</h1>
+                <h1 class="card-title">Para Yetssie Alexandra</h1>
                 
                 <p class="text-body">
                     Hay personas que llegan a nuestra vida y simplemente pasan... y hay otras que llegan y hacen que todo se sienta diferente.
@@ -465,7 +512,7 @@
                 </div>
 
                 <p class="text-body">
-                    Entre millones de personas, miles de caminos y tantas noches, mi corazón tuvo la suerte de encontrarte a ti.
+                    Entre millones de personas, miles de caminos y tantas noches, mi corazón tuvo la suerte de encontrarte a ti, mi querida Yetssie Alexandra.
                 </p>
 
                 <div class="secret-box">
@@ -476,7 +523,7 @@
                         Y si algún día miras la luna y sientes que está lejos, recuerda que siempre habrá una luna mirando el mismo cielo que nosotros.
                     </p>
                     <div class="signature">
-                        Te quiero mi ensure.
+                        TE QUIERO MI ENSURE
                     </div>
                 </div>
 
@@ -500,11 +547,14 @@
                 </h2>
 
                 <p class="text-body">
-                    Gracias por ser luz en mis noches oscuras y la melodía favorita de mi alma. Esta página fue creada especialmente para ti, para que recuerdes lo especial que eres cada vez que mires a las estrellas.
+                    Gracias por ser luz en mis noches oscuras y la melodía favorita de mi alma. Esta página fue creada especialmente para ti, mi Yetssie Alexandra, para que recuerdes lo especial que eres cada vez que mires a las estrellas.
                 </p>
 
                 <div class="signature" style="text-align: center; margin-top: 10px;">
-                    Con todo mi amor, para Gemini.
+                    Con todo el amor de Adrian, para Yetssie Alexandra.
+                </div>
+                <div style="font-family: var(--font-serif); color: var(--text-gold); font-size: 1.1rem; margin-top: 15px; letter-spacing: 2px;">
+                    TE QUIERO MI ENSURE
                 </div>
 
                 <div class="nav-controls" style="justify-content: center; margin-top: 35px;">
@@ -517,43 +567,48 @@
 
     </div>
 
-    <!-- REPRODUCTOR DE MÚSICA DE FONDO -->
+    <!-- REPRODUCTOR DE MÚSICA DE FONDO DE NUESTRA CANCIÓN -->
     <div class="audio-player-widget">
         <button id="play-btn" class="music-btn" title="Reproducir / Pausar Música">▶</button>
         <div class="audio-info">
-            <span class="audio-title">John Legend — All of Me</span>
-            <span class="audio-sub">Música de fondo romántica</span>
+            <span class="audio-title">Nuestra canción ❤️</span>
+            <span class="audio-sub">Perfect — Ed Sheeran</span>
         </div>
     </div>
 
-    <!-- Reproductor de YouTube oculto pero funcional -->
+    <!-- Elemento de Audio HTML5 confiable con fallback de audio web -->
+    <audio id="bg-audio" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-acoustic-guitar-112252.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Reproductor de YouTube integrado para reproducción directa -->
     <div id="youtube-player" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;"></div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Reproductor de Música mediante la API IFrame de YouTube con el tema All of Me
-        let player = null;
-        let isPlaying = false;
+        let ytPlayer = null;
+        let isAudioPlaying = false;
+        const localAudio = document.getElementById('bg-audio');
 
         function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
+            ytPlayer = new YT.Player('youtube-player', {
                 height: '0',
                 width: '0',
-                videoId: '450p7goxZqg', // John Legend - All of Me
+                videoId: '2Vv-BfVoq4g', // Ed Sheeran - Perfect
                 playerVars: {
                     'autoplay': 0,
                     'controls': 0,
                     'loop': 1,
-                    'playlist': '450p7goxZqg'
+                    'playlist': '2Vv-BfVoq4g'
                 },
                 events: {
                     'onStateChange': (e) => {
                         const btn = document.getElementById('play-btn');
                         if (e.data === YT.PlayerState.PLAYING) {
-                            isPlaying = true;
+                            isAudioPlaying = true;
                             btn.innerText = '❚❚';
-                        } else {
-                            isPlaying = false;
+                        } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+                            isAudioPlaying = false;
                             btn.innerText = '▶';
                         }
                     }
@@ -561,8 +616,40 @@
             });
         }
 
+        function togglePlay() {
+            const btn = document.getElementById('play-btn');
+            
+            // Intentar reproducir con la API de YouTube si está lista
+            if (ytPlayer && typeof ytPlayer.playVideo === 'function' && ytPlayer.getPlayerState) {
+                if (isAudioPlaying) {
+                    ytPlayer.pauseVideo();
+                    localAudio.pause();
+                    isAudioPlaying = false;
+                    btn.innerText = '▶';
+                } else {
+                    ytPlayer.playVideo();
+                    isAudioPlaying = true;
+                    btn.innerText = '❚❚';
+                }
+            } else {
+                // Alternativa de audio directo en HTML5
+                if (localAudio.paused) {
+                    localAudio.play().then(() => {
+                        isAudioPlaying = true;
+                        btn.innerText = '❚❚';
+                    }).catch(e => {
+                        console.log("Auto-play error: ", e);
+                    });
+                } else {
+                    localAudio.pause();
+                    isAudioPlaying = false;
+                    btn.innerText = '▶';
+                }
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Fondo estelar con partículas y destellos dinámicos
+            // Fondo de cielo nocturno animado con Luna, Estrellas y Partículas por JavaScript
             const canvas = document.getElementById('stars-canvas');
             const ctx = canvas.getContext('2d');
             let w = canvas.width = window.innerWidth;
@@ -573,20 +660,21 @@
                 h = canvas.height = window.innerHeight;
             });
 
-            // Creación de estrellas y corazones flotantes
-            const stars = Array.from({ length: 110 }, () => ({
+            // Arreglo de Estrellas con destellos y variaciones de brillo
+            const stars = Array.from({ length: 120 }, () => ({
                 x: Math.random() * w,
                 y: Math.random() * h,
-                size: Math.random() * 1.6 + 0.3,
+                size: Math.random() * 1.8 + 0.4,
                 alpha: Math.random(),
-                speed: Math.random() * 0.015 + 0.005
+                speed: Math.random() * 0.012 + 0.004
             }));
 
-            const hearts = Array.from({ length: 15 }, () => ({
+            // Arreglo de Pequeños Corazones y Partículas flotantes
+            const hearts = Array.from({ length: 16 }, () => ({
                 x: Math.random() * w,
                 y: Math.random() * h + h,
-                size: Math.random() * 10 + 8,
-                speedY: Math.random() * 0.6 + 0.3,
+                size: Math.random() * 9 + 7,
+                speedY: Math.random() * 0.5 + 0.2,
                 opacity: Math.random() * 0.5 + 0.2,
                 swing: Math.random() * 2
             }));
@@ -604,10 +692,10 @@
                 ctx.restore();
             }
 
-            function animateSky() {
+            function animateNightSky() {
                 ctx.clearRect(0, 0, w, h);
 
-                // Dibujar Estrellas titilantes
+                // Dibujar Estrellas Parpadeantes
                 stars.forEach(s => {
                     ctx.globalAlpha = s.alpha;
                     ctx.fillStyle = '#ffffff';
@@ -621,7 +709,7 @@
                     }
                 });
 
-                // Dibujar Corazones Suaves Flotantes
+                // Dibujar Partículas/Corazones Flotantes Suaves
                 hearts.forEach(hItem => {
                     drawHeart(hItem.x + Math.sin(hItem.y * 0.01) * hItem.swing, hItem.y, hItem.size, hItem.opacity);
                     hItem.y -= hItem.speedY;
@@ -631,32 +719,25 @@
                     }
                 });
 
-                requestAnimationFrame(animateSky);
+                requestAnimationFrame(animateNightSky);
             }
-            animateSky();
+            animateNightSky();
 
-            // Lógica de Entrada e Interacción
+            // Interacción de Portada / Entrada
             const introScreen = document.getElementById('intro-screen');
             const btnEnter = document.getElementById('btn-enter');
             const playBtn = document.getElementById('play-btn');
 
             btnEnter.addEventListener('click', () => {
                 introScreen.classList.add('hidden');
-                if (player && typeof player.playVideo === 'function') {
-                    player.playVideo();
-                }
+                togglePlay();
             });
 
             playBtn.addEventListener('click', () => {
-                if (!player) return;
-                if (isPlaying) {
-                    player.pauseVideo();
-                } else {
-                    player.playVideo();
-                }
+                togglePlay();
             });
 
-            // Sistema de Navegación entre Páginas / Capítulos
+            // Transiciones entre Secciones/Páginas
             const nextButtons = document.querySelectorAll('.btn-next');
             const prevButtons = document.querySelectorAll('.btn-prev');
 
