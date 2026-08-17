@@ -1,207 +1,159 @@
-/* ==========================================================================
-   LOGICA Y ANIMACIONES - BAJO LA MISMA LUNA
-   ========================================================================== */
-
 document.addEventListener('DOMContentLoaded', () => {
-    initSkyCanvas();
-    initSecretMessage();
-    initAudioSystem();
-});
-
-/* 1. Cielo Nocturno (Estrellas, Parpadeo y Estrellas Fugaces) */
-function initSkyCanvas() {
+    // -------------------------------------------------------------
+    // RENDERIZADO DEL FONDO DE ESTRELLAS Y LUNA MEDIANTE CANVAS HTML5
+    // -------------------------------------------------------------
     const canvas = document.getElementById('sky-canvas');
     const ctx = canvas.getContext('2d');
+    let w, h;
 
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-        createStars();
-    });
-
-    const stars = [];
-    const starCount = Math.floor((width * height) / 3000); // Adaptativo a pantalla
-
-    function createStars() {
-        stars.length = 0;
-        for (let i = 0; i < starCount; i++) {
-            stars.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                radius: Math.random() * 1.4 + 0.3,
-                alpha: Math.random(),
-                speed: Math.random() * 0.015 + 0.005,
-                increasing: Math.random() > 0.5
-            });
-        }
+    function resizeCanvas() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
     }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-    createStars();
+    // Crear Estrellas Parpadeantes
+    const starsCount = 180;
+    const stars = Array.from({ length: starsCount }, () => ({
+        x: Math.random(),
+        y: Math.random(),
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random(),
+        speed: Math.random() * 0.015 + 0.005
+    }));
 
-    // Estrella fugaz
-    let shootingStar = null;
+    let glowTimer = 0;
 
-    function spawnShootingStar() {
-        shootingStar = {
-            x: Math.random() * width * 0.8,
-            y: Math.random() * height * 0.4,
-            length: Math.random() * 80 + 40,
-            speed: Math.random() * 10 + 6,
-            angle: Math.PI / 4, // 45 grados
-            alpha: 1
-        };
-        // Siguiente estrella fugaz entre 4 y 9 segundos
-        setTimeout(spawnShootingStar, Math.random() * 5000 + 4000);
-    }
+    function drawNightSky() {
+        // Fondo Noche Profunda
+        ctx.fillStyle = '#03050d';
+        ctx.fillRect(0, 0, w, h);
 
-    setTimeout(spawnShootingStar, 2000);
-
-    function animate() {
-        // Fondo con gradiente nocturno profundo
-        const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
-        bgGradient.addColorStop(0, '#050714');
-        bgGradient.addColorStop(0.5, '#0a0e27');
-        bgGradient.addColorStop(1, '#141028');
-        ctx.fillStyle = bgGradient;
-        ctx.fillRect(0, 0, width, height);
-
-        // Dibujar estrellas
-        ctx.fillStyle = '#ffffff';
-        stars.forEach(star => {
-            // Animación parpadeo
-            if (star.increasing) {
-                star.alpha += star.speed;
-                if (star.alpha >= 1) star.increasing = false;
-            } else {
-                star.alpha -= star.speed;
-                if (star.alpha <= 0.2) star.increasing = true;
-            }
-
-            ctx.globalAlpha = star.alpha;
+        // Dibujar Estrellas
+        stars.forEach(s => {
+            ctx.globalAlpha = s.alpha;
+            ctx.fillStyle = '#ffffff';
             ctx.beginPath();
-            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.arc(s.x * w, s.y * h, s.size, 0, Math.PI * 2);
             ctx.fill();
-        });
 
-        // Dibujar estrella fugaz
-        if (shootingStar) {
-            ctx.globalAlpha = shootingStar.alpha;
-            const tailX = shootingStar.x - Math.cos(shootingStar.angle) * shootingStar.length;
-            const tailY = shootingStar.y - Math.sin(shootingStar.angle) * shootingStar.length;
-
-            const grad = ctx.createLinearGradient(shootingStar.x, shootingStar.y, tailX, tailY);
-            grad.addColorStop(0, '#ffffff');
-            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = 1.8;
-            ctx.beginPath();
-            ctx.moveTo(shootingStar.x, shootingStar.y);
-            ctx.lineTo(tailX, tailY);
-            ctx.stroke();
-
-            shootingStar.x += Math.cos(shootingStar.angle) * shootingStar.speed;
-            shootingStar.y += Math.sin(shootingStar.angle) * shootingStar.speed;
-            shootingStar.alpha -= 0.015;
-
-            if (shootingStar.alpha <= 0) {
-                shootingStar = null;
-            }
-        }
-
-        ctx.globalAlpha = 1;
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-}
-
-/* 2. Desplegar Mensaje Oculto */
-function initSecretMessage() {
-    const btn = document.getElementById('toggle-secret-btn');
-    const content = document.getElementById('secret-content');
-
-    if (btn && content) {
-        btn.addEventListener('click', () => {
-            content.classList.toggle('open');
-            if (content.classList.contains('open')) {
-                btn.innerHTML = '<span class="heart-icon">♡</span> Ocultar mensaje';
-            } else {
-                btn.innerHTML = '<span class="heart-icon">♡</span> Toca para descubrir algo más';
+            s.alpha += s.speed;
+            if (s.alpha > 0.95 || s.alpha < 0.1) {
+                s.speed = -s.speed;
             }
         });
+
+        // DIBUJAR LUNA LLENA
+        ctx.globalAlpha = 1.0;
+        
+        // Posición de la Luna (esquina superior derecha)
+        const moonRadius = w < 600 ? 45 : 65;
+        const moonX = w - moonRadius - (w < 600 ? 20 : 40);
+        const moonY = moonRadius + (w < 600 ? 20 : 35);
+
+        glowTimer += 0.03;
+        const pulse = Math.sin(glowTimer) * 8;
+
+        // Halo Exterior Dorado/Rosa
+        const outerHalo = ctx.createRadialGradient(moonX, moonY, moonRadius * 0.8, moonX, moonY, moonRadius * 2.5 + pulse);
+        outerHalo.addColorStop(0, 'rgba(255, 250, 220, 0.35)');
+        outerHalo.addColorStop(0.5, 'rgba(212, 175, 55, 0.15)');
+        outerHalo.addColorStop(1, 'rgba(3, 5, 13, 0)');
+
+        ctx.fillStyle = outerHalo;
+        ctx.beginPath();
+        ctx.arc(moonX, moonY, moonRadius * 2.5 + pulse, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Cuerpo de la Luna
+        const moonGrad = ctx.createRadialGradient(moonX - moonRadius * 0.3, moonY - moonRadius * 0.3, moonRadius * 0.1, moonX, moonY, moonRadius);
+        moonGrad.addColorStop(0, '#ffffff');
+        moonGrad.addColorStop(0.7, '#fbf8eb');
+        moonGrad.addColorStop(1, '#d8d0b5');
+
+        ctx.fillStyle = moonGrad;
+        ctx.beginPath();
+        ctx.arc(moonX, moonY, moonRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Cráteres / Textura de la Luna
+        ctx.fillStyle = 'rgba(180, 170, 140, 0.25)';
+        
+        ctx.beginPath();
+        ctx.arc(moonX - moonRadius * 0.3, moonY - moonRadius * 0.2, moonRadius * 0.22, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(moonX + moonRadius * 0.25, moonY + moonRadius * 0.3, moonRadius * 0.28, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(moonX - moonRadius * 0.1, moonY + moonRadius * 0.4, moonRadius * 0.18, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(moonX + moonRadius * 0.35, moonY - moonRadius * 0.25, moonRadius * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+
+        requestAnimationFrame(drawNightSky);
     }
-}
 
-/* 3. Reproductor y Sistema de Audio (YouTube API) */
-let ytPlayer = null;
-let isPlaying = false;
+    drawNightSky();
 
-function onYouTubeIframeAPIReady() {
-    ytPlayer = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId: '2Vv-BfVoq4g', // All of Me - John Legend Official
-        playerVars: {
-            'autoplay': 0,
-            'controls': 0,
-            'loop': 1,
-            'playlist': '2Vv-BfVoq4g'
-        },
-        events: {
-            'onStateChange': onPlayerStateChange
+    // -------------------------------------------------------------
+    // AUDIO Y NAVEGACIÓN
+    // -------------------------------------------------------------
+    const localAudio = document.getElementById('bg-audio');
+    const introScreen = document.getElementById('intro-screen');
+    const btnEnter = document.getElementById('btn-enter');
+    const playBtn = document.getElementById('play-btn');
+
+    function togglePlay() {
+        if (localAudio.paused) {
+            localAudio.play().then(() => {
+                playBtn.innerText = '❚❚';
+            }).catch(e => console.log("Audio play error: ", e));
+        } else {
+            localAudio.pause();
+            playBtn.innerText = '▶';
         }
+    }
+
+    btnEnter.addEventListener('click', () => {
+        introScreen.classList.add('hidden');
+        togglePlay();
     });
-}
 
-function onPlayerStateChange(event) {
-    const disc = document.getElementById('music-disc');
-    const playIcon = document.getElementById('play-icon');
-    const pauseIcon = document.getElementById('pause-icon');
+    playBtn.addEventListener('click', () => {
+        togglePlay();
+    });
 
-    if (event.data === YT.PlayerState.PLAYING) {
-        isPlaying = true;
-        if (disc) disc.classList.add('playing');
-        if (playIcon) playIcon.classList.add('hidden');
-        if (pauseIcon) pauseIcon.classList.remove('hidden');
-    } else {
-        isPlaying = false;
-        if (disc) disc.classList.remove('playing');
-        if (playIcon) playIcon.classList.remove('hidden');
-        if (pauseIcon) pauseIcon.classList.add('hidden');
-    }
-}
+    // Navegación entre páginas
+    const nextButtons = document.querySelectorAll('.btn-next');
+    const prevButtons = document.querySelectorAll('.btn-prev');
 
-function initAudioSystem() {
-    const startBtn = document.getElementById('start-btn');
-    const overlay = document.getElementById('audio-overlay');
-    const toggleBtn = document.getElementById('audio-toggle-btn');
+    function switchPage(targetId) {
+        const currentActive = document.querySelector('.page-section.active');
+        const targetPage = document.getElementById(targetId);
 
-    if (startBtn && overlay) {
-        startBtn.addEventListener('click', () => {
-            overlay.classList.add('fade-out');
+        if (currentActive && targetPage) {
+            currentActive.style.opacity = '0';
+            currentActive.style.transform = 'translateY(-15px)';
+
             setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 800);
-
-            if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
-                ytPlayer.playVideo();
-            }
-        });
+                currentActive.classList.remove('active');
+                targetPage.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
+        }
     }
 
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            if (!ytPlayer || typeof ytPlayer.playVideo !== 'function') return;
+    nextButtons.forEach(btn => {
+        btn.addEventListener('click', () => switchPage(btn.getAttribute('data-next')));
+    });
 
-            if (isPlaying) {
-                ytPlayer.pauseVideo();
-            } else {
-                ytPlayer.playVideo();
-            }
-        });
-    }
-}
+    prevButtons.forEach(btn => {
+        btn.addEventListener('click', () => switchPage(btn.getAttribute('data-prev')));
+    });
+});
