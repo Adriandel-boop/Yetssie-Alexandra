@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Yetssie Alexandra | Bajo La Misma Luna</title> # Title updated
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Canvas para estrellas y nebulosa -->
+    <canvas id="sky-canvas"></canvas>
+
+    <!-- Luna realista estilizada -->
+    <div class="moon-container">
+        <div class="moon">
+            <div class="moon-crater crater-1"></div>
+            <div class="moon-crater crater-2"></div>
+            <div class="moon-crater crater-3"></div>
+            <div class="moon-crater crater-4"></div>
+        </div>
+        <div class="moon-glow"></div>
+    </div>
+
+    <!-- Pantalla de bienvenida / Control de Autoplay -->
+    <div id="audio-overlay" class="audio-overlay">
+        <div class="audio-card">
+            <div class="music-icon-wrap">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            </div>
+            <h2>Una experiencia bajo las estrellas</h2>
+            <p>Para una experiencia completa e inmersiva con música de fondo ("All of Me — John Legend"), toca el botón para comenzar.</p>
+            <button id="start-btn" class="glow-button">Iniciar Experiencia ✨</button>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal con Scroll Suave -->
+    <main class="main-container">
+
+        <!-- ========================
+             PRIMERA SECCIÓN
+             ======================== -->
+        <section id="section1" class="hero-section">
+            <div class="card-glass intro-card">
+                <span class="sub-subtitle">CARTA DIGITAL</span>
+                <h1 class="title-primary">Para Yetssie Alexandra</h1>
+                <p class="subtitle-romantic">Una pequeña carta para la persona que ilumina mis noches</p>
+                
+                <div class="divider"></div>
+
+                <p class="letter-body">
+                    Hay personas que llegan a nuestra vida y simplemente pasan...<br>
+                    y hay otras que llegan y hacen que todo se sienta diferente.
+                </p>
+                <p class="letter-highlight">Tú eres de esas personas.</p>
+
+                <p class="signature">Con amor,<br><span>Adrian</span></p>
+
+                <div class="action-wrap">
+                    <a href="#section2" id="btn-tocame" class="glow-button nav-link">Toque aquí</a>
+                    <span class="small-hint">Hay algo que quiero decirte...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================
+             SEGUNDA SECCIÓN
+             ======================== -->
+        <section id="section2" class="content-section">
+            <div class="card-glass main-card">
+                <span class="header-badge">BAJO LA MISMA LUNA</span>
+                <h2 class="name-title">Yetssie Alexandra</h2>
+
+                <div class="quote-box">
+                    <p class="quote-text">
+                        "Si pudiera pedirle algo a la luna, no le pediría que brillara más. 
+                        Le pediría que nunca dejara de recordarme lo afortunado que soy de haberte encontrado."
+                    </p>
+                </div>
+
+                <p class="p-romantic">
+                    Entre millones de personas, miles de caminos y tantas noches, 
+                    mi corazón tuvo la suerte de encontrarte a ti.
+                </p>
+
+                <!-- Tarjeta Interactiva / Mensaje Oculto -->
+                <div class="hidden-message-wrapper">
+                    <button id="toggle-secret-btn" class="secret-trigger-btn">
+                        <span class="heart-icon">♡</span> Toca para descubrir algo más
+                    </button>
+
+                    <div id="secret-content" class="secret-content hidden">
+                        <div class="secret-inner">
+                            <p class="secret-text">
+                                No quiero prometerte un amor perfecto, porque lo perfecto no existe.
+                            </p>
+                            <p class="secret-text highlight-gold">
+                                Quiero prometerte algo mejor:<br>
+                                estar, aprender, cuidarte, escucharte, hacerte reír y elegirte una y otra vez.
+                            </p>
+                            <p class="secret-text">
+                                Y si algún día miras la luna y sientes que está demasiado lejos, recuerda esto:
+                            </p>
+
+                            <blockquote class="main-quote">
+                                "Aunque estemos lejos, siempre habrá una luna mirando el mismo cielo que nosotros."
+                            </blockquote>
+
+                            <p class="final-love">Te quiero, Yetssie. ❤️</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reproductor Elegante de Música -->
+                <div class="music-player-card">
+                    <div class="track-info">
+                        <div class="disc-animation" id="music-disc">🎵</div>
+                        <div class="track-details">
+                            <span class="track-title">All of Me</span>
+                            <span class="track-artist">John Legend</span>
+                        </div>
+                    </div>
+                    <button id="audio-toggle-btn" class="player-control-btn" aria-label="Reproducir / Pausar">
+                        <svg id="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="pause-icon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- YouTube iFrame API oculto para audio legítimo -->
+    <div id="youtube-player" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
